@@ -1,0 +1,2 @@
+# AdmPlugins
+app java + sqlite
