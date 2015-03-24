@@ -1,62 +1,60 @@
-
 package com.AdmPlugin.motorLisa;
 
-import  com.library.util.Empty;
+import com.library.util.Empty;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Vector;
 
 public class Directorio {
-    
-    {
-        extencionFiltro = Empty.getString();
-        archivosContados = Empty.getInt();
-    }
-    
-    private String extencionFiltro;
-    private int archivosContados;
 
-    public int getArchivosContados() {
-        return archivosContados;
+    {
+        ext = Empty.getString();
+        buscarEnSubCarpetas = Empty.getBool();
     }
+
+    private String ext;
+    private boolean buscarEnSubCarpetas;
     
-    private void escribirCarpeta(File[] archivos){
+    private File[] getArchivosEnDirectorio(File Directorio){
+        File[] archivos = Directorio.listFiles();
+        Vector<File> listaArchivos = new Vector<>();
         
-        for(File archivo:archivos){
-            if(archivo.isDirectory()){
-              File[] directorio = archivo.listFiles();
-              escribirCarpeta(directorio);
+
+        for (File archivo:archivos) {
+            if(archivo.isDirectory() && buscarEnSubCarpetas){
+                for (File archivoEnDirectorio : getArchivosEnDirectorio(archivo)) {
+                   if (archivoEnDirectorio.getName().endsWith(ext)) 
+                        listaArchivos.add(archivoEnDirectorio);
+                }
             }else{
-                System.out.println(archivo.getAbsolutePath());      
+                if (archivo.getName().endsWith(ext)) 
+                    listaArchivos.add(archivo);
             }
         }
+        
+        return listaArchivos.toArray( new File[0]);
+        
+    }
+
+    public File[] getArchivos(String path) {
+
+        File Directorio = new File(path);
+
+        if (Directorio.exists()) 
+            return getArchivosEnDirectorio(Directorio);
+        else
+            return new File[0];
+            
+        
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public void setBuscarEnSubCarpetas(boolean buscarEnSubCarpetas) {
+        this.buscarEnSubCarpetas = buscarEnSubCarpetas;
     }
     
-    public void doBuscarRutas(String ruta){
-        
-        File Directorio = new File(ruta);
-        
-        if(Directorio.exists()){
-         
-            File[] archivos;
-
-            if(!extencionFiltro.isEmpty())
-            {
-                archivos = Directorio.listFiles( new FilenameFilter() {
-
-                    @Override
-                    public boolean accept(File dir, String name) {
-                       return name.endsWith(extencionFiltro);
-                    }
-                });
-            }else{
-                archivos = Directorio.listFiles();
-            }
-            
-            //escribirCarpeta(archivos);
-         }  
-    }
-
-    public void setExtencionFiltro(String extencionFiltro) {
-        this.extencionFiltro = extencionFiltro;
-    }
+    
 }
