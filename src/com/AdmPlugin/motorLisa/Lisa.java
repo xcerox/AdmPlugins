@@ -6,45 +6,24 @@
 package com.AdmPlugin.motorLisa;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.ServiceLoader;
-import java.util.Vector;
+import java.util.ArrayList;
 import com.AdmPlugin.classpath.modificadorClassPath;
 import com.InterfacePlugins.PluginsCompatible;
-import java.util.Stack;
+import com.AdmPlugin.motorLisa.Directorio;
 
 public class Lisa {
-    private static final String extensionJar = ".jar";
-    private static final String directorio_plugins = "/home/jairo/Escritorio/Prueba/Plugins/"; 
-    
-    
-    public Lisa() {
-    }
     
     private static File[] buscarPlugins(){
-    
-    Vector<File> urls = new Vector<File>();
-    File directorioPlugins = new File(directorio_plugins);
-    
-    if(directorioPlugins.exists() && directorioPlugins.isDirectory()){
-         File[] jars  = directorioPlugins.listFiles(new FilenameFilter() {
-
-             @Override
-             public boolean accept(File dir, String name) {
-                 return  name.endsWith(extensionJar);
-             }
-         });
-    
-         for( File jar: jars){
-             urls.add(jar);
-         }
-                 
-    }
-    
-    return urls.toArray(new File[0]);
-    
+        final String extJar = ".jar";
+        final String direccion = "/home/jairo/Escritorio/Prueba/Plugins/";
+        
+        Directorio dir = new Directorio();
+        dir.setExt(extJar);
+        dir.setBuscarEnSubCarpetas(false);
+        return dir.getArchivos(direccion);
     }
     
     public static boolean loadPlugins(){
@@ -75,18 +54,18 @@ public class Lisa {
         ServiceLoader<PluginsCompatible> serviceLoad = ServiceLoader.load(PluginsCompatible.class);
         serviceLoad.reload();
         
-        Vector<PluginsCompatible> Pcompatible = new Vector<PluginsCompatible>();
+        ArrayList<PluginsCompatible> listaPlugins = new ArrayList<PluginsCompatible>();
         
         Iterator<PluginsCompatible> iterator = serviceLoad.iterator();
         
         while (iterator.hasNext()) {
             try {
                 PluginsCompatible plugins =  iterator.next();
-                Pcompatible.add(plugins);  
+                listaPlugins.add(plugins);  
             } catch (Exception error) {
                 System.err.println("Excepcion al obtener plugins: " + error.getMessage());
             }
         }   
-         return Pcompatible.toArray(new PluginsCompatible[0]);
+         return listaPlugins.toArray(new PluginsCompatible[0]);
     }
 }

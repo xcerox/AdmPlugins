@@ -2,8 +2,7 @@ package com.AdmPlugin.motorLisa;
 
 import com.library.util.Empty;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Directorio {
 
@@ -17,7 +16,7 @@ public class Directorio {
     
     private File[] getArchivosEnDirectorio(File Directorio){
         File[] archivos = Directorio.listFiles();
-        Vector<File> listaArchivos = new Vector<>();
+        ArrayList<File> listaArchivos = new ArrayList<>();
         
 
         for (File archivo:archivos) {
@@ -56,5 +55,7 @@ public class Directorio {
         this.buscarEnSubCarpetas = buscarEnSubCarpetas;
     }
     
-    
+    void dispose(){
+        
+    }
 }
