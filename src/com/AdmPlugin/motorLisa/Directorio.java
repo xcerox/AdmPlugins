@@ -52,7 +52,7 @@ public class Directorio {
                 archivos = Directorio.listFiles();
             }
             
-            escribirCarpeta(archivos);
+            //escribirCarpeta(archivos);
          }  
     }
 
