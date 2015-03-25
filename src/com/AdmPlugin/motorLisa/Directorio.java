@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Directorio {
 
     {
-        ext = Empty.getString();
-        buscarEnSubCarpetas = Empty.getBool();
+        ext = Empty.emptyString;
+        buscarEnSubCarpetas = Empty.emptyBoolean;
     }
 
     private String ext;
