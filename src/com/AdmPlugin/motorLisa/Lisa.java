@@ -12,7 +12,7 @@ import java.util.ServiceLoader;
 import java.util.ArrayList;
 import com.AdmPlugin.classpath.modificadorClassPath;
 import com.InterfacePlugins.PluginsCompatible;
-import com.AdmPlugin.motorLisa.Directorio;
+import com.libreriajRR.sistem.Directorio;
 
 public class Lisa {
     
